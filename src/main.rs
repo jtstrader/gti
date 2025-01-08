@@ -8,4 +8,21 @@
 //! re-running scripts when relevant major changes have already been made but not yet
 //! committed.
 
-fn main() {}
+mod gti;
+
+use gti::GtiManager;
+use std::{io, process::exit};
+
+fn main() -> io::Result<()> {
+    let repo_git_dir = match gti::git_validate_status() {
+        Ok(path) => path,
+        Err(e) => {
+            fallback_log!(e);
+            exit(1);
+        }
+    };
+
+    let _gti = GtiManager::new(&repo_git_dir)?;
+
+    Ok(())
+}
