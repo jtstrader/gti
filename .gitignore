@@ -1,5 +1,6 @@
-# Build
+# Build/Testing
 /target
+/tests/env
 
 # Environment
 .vscode

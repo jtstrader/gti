@@ -19,7 +19,7 @@ use std::{
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-pub(crate) enum InitializationError {
+pub enum InitializationError {
     #[error("git is not installed")]
     GitNotInstalled,
     #[error("could not validate git installation; version check failed")]
@@ -43,7 +43,7 @@ macro_rules! fallback_log {
 }
 
 #[derive(Debug)]
-pub(crate) struct GtiManager {
+pub struct GtiManager {
     #[allow(dead_code)]
     gti_dir: PathBuf,
 }
@@ -69,7 +69,7 @@ impl GtiManager {
 }
 
 /// Validate the git installation. Check if git is installed and the version can be correctly obtained.
-pub(crate) fn git_validate_status() -> Result<PathBuf, InitializationError> {
+pub fn git_validate_status() -> Result<PathBuf, InitializationError> {
     let git_validate_status = Command::new("git")
         .arg("--version")
         .stdout(Stdio::null())
@@ -103,5 +103,35 @@ pub(crate) fn git_validate_status() -> Result<PathBuf, InitializationError> {
 
             Err(InitializationError::RepositoryNotFound)
         }
+    }
+}
+
+mod tests {
+
+    #[allow(unused_imports)]
+    use super::*;
+
+    /// By nature of this test existing within the repo of this project, it
+    /// is expected to pass as long as file permissions for the repo are configured
+    /// correctly. Should also work w/ GH Actions since the repo must first be
+    /// cloned.
+    #[test]
+    fn git_validate_status_is_ok_when_in_git_repo() {
+        let status = git_validate_status();
+        assert!(status.is_ok(), "{}", format!("{:?}", status));
+
+        let repo_git_dir = status.unwrap();
+        assert!(
+            repo_git_dir.file_name().is_some(),
+            "repo git directory terminates in \"..\""
+        );
+
+        let file_name = repo_git_dir.file_name().unwrap().to_str();
+        assert!(
+            file_name.is_some(),
+            "repo git directory does not contain valid unicode"
+        );
+
+        assert_eq!(file_name.unwrap(), ".git");
     }
 }
