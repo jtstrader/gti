@@ -1,0 +1,25 @@
+on:
+  push:
+    paths:
+      - "**.rs"
+      - "Cargo.toml"
+      - "Cargo.lock"
+      - ".github/workflows/**.yaml"
+name: Clippy Check
+jobs:
+  gti:
+    name: Clippy Check GTI
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install stable toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          default: true
+          components: clippy
+
+      - name: Check gti
+        run: cargo clippy --all-features -- -Dwarnings
