@@ -1,6 +1,6 @@
-//! # Git Temp Ignore (GTI)
+//! # Temp Ignore Git (TIG)
 //!
-//! GTI is a wrapper around git that streamlines temporarily ignoring files changes when
+//! TIG is a wrapper around git that streamlines temporarily ignoring files changes when
 //! running commands. It's particularly useful if a build script, outside of your control,
 //! makes minor changes to a repository that does not need to be tracked.
 //!
@@ -34,7 +34,7 @@ pub enum InitializationError {
 #[macro_export]
 macro_rules! fallback_log {
     ($e:expr) => {
-        println!("gti: {}", format!("{}", $e))
+        println!("tig: {}", format!("{}", $e))
     };
 
     ($fmt:literal, $($args:expr),*) => {
@@ -43,13 +43,13 @@ macro_rules! fallback_log {
 }
 
 #[derive(Debug)]
-pub struct GtiManager {
+pub struct TigManager {
     #[allow(dead_code)]
-    gti_dir: PathBuf,
+    tig_dir: PathBuf,
 }
 
-impl GtiManager {
-    /// Build a GTI manager that contains a path to the `.git` directory.
+impl TigManager {
+    /// Build a TIG manager that contains a path to the `.git` directory.
     pub fn new(repo_git_dir: &Path) -> io::Result<Self> {
         if !repo_git_dir.exists() {
             return Err(io::Error::new(
@@ -59,12 +59,12 @@ impl GtiManager {
         }
 
         // .git directory exists, meaning that we can properly initialize .git.
-        let gti_dir = repo_git_dir.join("x-gti-info");
-        if !gti_dir.exists() {
-            DirBuilder::new().create(&gti_dir)?;
+        let tig_dir = repo_git_dir.join("x-tig-info");
+        if !tig_dir.exists() {
+            DirBuilder::new().create(&tig_dir)?;
         }
 
-        Ok(GtiManager { gti_dir })
+        Ok(TigManager { tig_dir })
     }
 }
 

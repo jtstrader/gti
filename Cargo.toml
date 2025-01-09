@@ -1,16 +1,16 @@
 [package]
-name = "gti-cli"
+name = "tig-cli"
 authors = ["Jacob Strader <jacob.thomas.strader@gmail.com>"]
 version = "0.1.0"
 edition = "2021"
 
 [[bin]]
-name = "gti"
+name = "tig"
 path = "src/main.rs"
 
 [lib]
-name = "gti"
-path = "src/gti.rs"
+name = "tig"
+path = "src/tig.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

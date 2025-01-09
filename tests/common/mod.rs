@@ -1,4 +1,4 @@
-//! GTI test setup/cleanup helpers.
+//! TIG test setup/cleanup helpers.
 
 use std::{
     fs, io,

@@ -7,8 +7,8 @@ on:
       - ".github/workflows/**.yaml"
 name: Clippy Check
 jobs:
-  gti:
-    name: Clippy Check GTI
+  tig:
+    name: Clippy Check TIG
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -21,5 +21,5 @@ jobs:
           default: true
           components: clippy
 
-      - name: Check gti
+      - name: Check tig
         run: cargo clippy --all-features -- -Dwarnings

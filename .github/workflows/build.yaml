@@ -5,10 +5,10 @@ on:
       - "Cargo.toml"
       - "Cargo.lock"
       - ".github/workflows/**.yaml"
-name: Build GTI
+name: Build TIG
 jobs:
-  build_gti:
-    name: Build and Test GTI
+  build_tig:
+    name: Build and Test TIG
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -20,8 +20,8 @@ jobs:
           toolchain: stable
           default: true
 
-      - name: Build gti
+      - name: Build tig
         run: cargo build --release --all-features
 
-      - name: Test gti
+      - name: Test tig
         run: cargo test
